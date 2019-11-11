@@ -1,49 +1,30 @@
 # Uses python3
 import sys
+#import time
 
 def optimal_summands(n):
 	summands = []
 	#write your code here
 	if n <= 2:
-		return [[n]]
-	numbers = []
-	sum_cache = 0
+		return [n]
+	rest = 0
 	for i in range(1, n):
-		if sum(numbers)+i > n:
-			sum_cache = n - sum(numbers)
+		if sum(summands)+i > n:
+			rest = n - sum(summands)
 			break
-		numbers.append(i)
+		summands.append(i)
 
-	print(len(numbers))
-	if sum_cache > 0:
-		numbers[-1] += sum_cache
-		summands.append(numbers.copy())
-		numbers[-1] -= sum_cache
-		for i in range(1, sum_cache):
-			temp = numbers[-1-i]
-			del numbers[-1-i]
-			numbers.append(temp+sum_cache)
-			print(*numbers)
-			del numbers[-1]
-			numbers.insert(-i, temp)
-	else:
-		for num in numbers:
-			print(x, end=' ')
-
-		
+	summands[-1] += rest
 	return summands
 
 if __name__ == '__main__':
 	input = sys.stdin.read()
 	n = int(input)
+	start = time.time()
+	elapsed = 0
 	summands = optimal_summands(n)
-	
-	"""if len(summands) <= 0:
-		print(1)
-		print(n, end=' ')
-	else:
-		print(len(summands[0]))
-		for lst in summands:
-			for x in lst:
-				print(x, end=' ')
-			print()"""
+	print(len(summands))
+	for x in summands:
+		print(x, end=' ')
+	#elapsed = time.time() - start
+	#print("Time -> "+str(elapsed))
