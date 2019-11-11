@@ -6,27 +6,30 @@ def optimal_summands(n):
 	#write your code here
 	if n <= 2:
 		return [[n]]
-	memo = []
-	max_len = 0
-	while True:
-		lst = [1]
-		i = 2
-		aux_n = n-1
-		while aux_n > i:
-			if aux_n - i > i and i not in memo:
-				aux_n -= i
-				lst.append(i)
-				memo.append(i)
-
-			i += 1
-		if i in memo:
+	numbers = []
+	sum_cache = 0
+	for i in range(1, n):
+		if sum(numbers)+i > n:
+			sum_cache = n - sum(numbers)
 			break
-		elif sum(lst)+i == n:
-			memo.append(i)
-			lst.append(i)
-			if len(lst) >= max_len:
-				max_len = len(lst)
-				summands.append(lst)
+		numbers.append(i)
+
+	print(len(numbers))
+	if sum_cache > 0:
+		numbers[-1] += sum_cache
+		summands.append(numbers.copy())
+		numbers[-1] -= sum_cache
+		for i in range(1, sum_cache):
+			temp = numbers[-1-i]
+			del numbers[-1-i]
+			numbers.append(temp+sum_cache)
+			print(*numbers)
+			del numbers[-1]
+			numbers.insert(-i, temp)
+	else:
+		for num in numbers:
+			print(x, end=' ')
+
 		
 	return summands
 
@@ -35,7 +38,7 @@ if __name__ == '__main__':
 	n = int(input)
 	summands = optimal_summands(n)
 	
-	if len(summands) <= 0:
+	"""if len(summands) <= 0:
 		print(1)
 		print(n, end=' ')
 	else:
@@ -43,5 +46,4 @@ if __name__ == '__main__':
 		for lst in summands:
 			for x in lst:
 				print(x, end=' ')
-			print()
-
+			print()"""
